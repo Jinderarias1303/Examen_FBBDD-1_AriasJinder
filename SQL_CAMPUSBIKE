@@ -1,0 +1,78 @@
+mysql> create database campusBike;
+
+
+mysql> use campusbike;
+ERROR 1049 (42000): Unknown database 'campusbike'
+mysql> use campusBike;
+Database changed
+mysql> create table campusbike(
+    -> id_producto int primary key auto_increment,
+    -> fe_ingreso date not null,
+    -> modelo varchar(50) not null,
+    -> valor decimal(10,2) not null);
+
+
+mysql> create table cliente(
+    -> id_cliente int primary key auto_increment,
+    -> nombre varchar(25) not null,
+    -> telefono varchar(11) not null,
+    -> direccion text not null,
+    -> edad int not null);
+
+
+
+mysql> create table proveedor( id_proveedor int primary key auto_increment, nombre_pro
+varchar(50) not null, direccion text not null, email varchar(100) not null, telefono varchar(11) not null);
+
+
+mysql> show tables;
++----------------------+
+| Tables_in_campusBike |
++----------------------+
+| campusbike           |
+| cliente              |
+| proveedor            |
++----------------------+
+
+
+mysql> create table factura( id_venta int primary key auto_increment,id_prod int, foreign key(i
+d_prod) references campusbike(id_producto), id_cliente int, foreign key(id_cliente) references
+cliente(id_cliente), fe_venta date not null, valor_compra decimal(10,2));
+
+
+mysql> describe factura;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| id_venta     | int           | NO   | PRI | NULL    | auto_increment |
+| id_prod      | int           | YES  | MUL | NULL    |                |
+| id_cliente   | int           | YES  | MUL | NULL    |                |
+| fe_venta     | date          | NO   |     | NULL    |                |
+| valor_compra | decimal(10,2) | YES  |     | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+
+
+mysql> create table bicicleta_provedor(
+    -> id_compra int primary key auto_increment,
+    -> id_bicicleta int,
+    -> foreign key(id_bicicleta) references campusbike(id_producto),
+    -> fe_compra date not null,
+    -> valor_total decimal(10,2) not null);
+
+
+mysql> create table repuesto_provedor(
+    -> id_compra int primary key auto_increment,
+    -> id_repuesto int,
+    -> foreign key(id_repuesto) references campusbike(id_producto),
+    -> fe_compra date not null,
+    -> valor_compra decimal(10,2) not null);
+
+
+mysql> create table factura_provedor(
+    -> id_factura int primary key auto_increment,
+    -> valor decimal(10,2) not null,
+    -> fecha_compra date not null,
+    -> descripcion text not null);
+
+
+
